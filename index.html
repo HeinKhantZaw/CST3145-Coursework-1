@@ -9,12 +9,50 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="lessons.js"></script>
+    <script src="lesson.js"></script>
 </head>
 <body>
 <div id="app">
-
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
+                <div class="mt-3">
+                    <h4>Sort by:</h4>
+                    <select class="form-control">
+                        <option value="Subject">Subject</option>
+                        <option value="Location">Location</option>
+                        <option value="Price">Price</option>
+                        <option value="Spaces">Availability</option>
+                    </select>
+                    <br/>
+                    <div class="col">
+                        <h4>Order:</h4>
+                        <input class="form-check-input" type="radio">
+                        <label> Ascending </label>
+                        <br/>
+                        <input class="form-check-input" type="radio">
+                        <label>Descending</label>
+                    </div>
+                </div>
+            </nav>
+            <main class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h1>Lessons</h1>
+                <p>You can choose the lessons here</p>
+                <!--Todo: Add lesson cards here-->
+            </main>
+        </div>
+    </div>
 </div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data:{
+            lessons: LESSONS,
+        }
+    });
+</script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
