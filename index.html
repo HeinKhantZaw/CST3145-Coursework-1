@@ -112,7 +112,7 @@
             },
             displayedLessons: function() {
                 return this.lessons.filter(lesson => {
-                    return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase());
+                    return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase()) || lesson.Location.toLowerCase().includes(this.searchQuery.toLowerCase());
                 });
             }
         }
