@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="app">
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="isProductPage">
         <div class="row">
             <nav class="col-2 d-none d-md-block bg-light sidebar">
                 <div class="mt-3">
@@ -41,7 +41,8 @@
                         <input type="text" class="form-control" placeholder="Search lessons">
                     </div>
                     <div class="col-6 text-right">
-                            <button class="btn" :style="{'cursor': cart?.length <= 0 ? 'not-allowed' : 'pointer'}" :class="cart?.length > 0 ? 'btn-success' : 'btn-secondary'" :disabled="cart?.length <= 0">
+                            <button class="btn" :style="{'cursor': cart?.length <= 0 ? 'not-allowed' : 'pointer'}" :class="cart?.length > 0 ? 'btn-success' : 'btn-secondary'" :disabled="cart?.length <= 0"
+                                    @click="checkout">
                                 ( {{cartItemCount}} )<i class="fas fa-shopping-cart"></i> Shopping Cart
                             </button>
                     </div>
@@ -74,6 +75,11 @@
             </main>
         </div>
     </div>
+    <div v-else>
+        <!--TODO: Checkout page-->
+        <p> Checkout page here.</p>
+        <p v-for="item in cart">{{item.Subject}}</p>
+    </div>
 </div>
 
 <script>
@@ -84,6 +90,7 @@
             descriptions: "You can choose the lessons here:",
             lessons: LESSONS,
             cart: [],
+            isProductPage: true
         },
         methods: {
             addToCart: function(lesson) {
@@ -92,6 +99,9 @@
                     this.cart.push(lesson);
                 }
             },
+            checkout: function() {
+                this.isProductPage = false;
+            }
         },
         computed: {
             cartItemCount: function() {
