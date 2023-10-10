@@ -15,7 +15,7 @@
 <div id="app">
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
+            <nav class="col-2 d-none d-md-block bg-light sidebar">
                 <div class="mt-3">
                     <h4>Sort by:</h4>
                     <select class="form-control">
@@ -35,10 +35,42 @@
                     </div>
                 </div>
             </nav>
-            <main class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h1>Lessons</h1>
-                <p>You can choose the lessons here</p>
-                <!--Todo: Add lesson cards here-->
+            <main class="col-10 pt-3 px-4">
+                <div class="row">
+                    <div class="col-6 mx-auto mt-2 mb-2 text-center search-bar">
+                        <input type="text" class="form-control" placeholder="Search lessons">
+                    </div>
+                    <div class="col-6 text-right">
+                            <button class="btn" :style="{'cursor': cart?.length <= 0 ? 'not-allowed' : 'pointer'}" :class="cart?.length > 0 ? 'btn-success' : 'btn-secondary'" :disabled="cart?.length <= 0">
+                                ( {{cartItemCount}} )<i class="fas fa-shopping-cart"></i> Shopping Cart
+                            </button>
+                    </div>
+                </div>
+                <h1>{{title}}</h1>
+                <p>{{descriptions}}</p>
+                <div class="row">
+                    <div class="col-md-4" v-for="lesson in lessons">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="card-title">Subject: {{ lesson.Subject }}</h5>
+                                        <p class="card-text">Location: {{ lesson.Location }}</p>
+                                        <p class="card-text">Price: {{ lesson.Price }}</p>
+                                        <p class="card-text">Spaces: {{ lesson.Spaces }}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fas" :class="lesson.Icon" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" :class="lesson.Spaces <= 0 && 'disabled btn-secondary'"
+                                    @click="addToCart(lesson)" :disabled="lesson.Spaces <= 0"
+                                    :style="{'cursor': lesson.Spaces <= 0 ? 'not-allowed' : 'pointer'}">Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -48,7 +80,23 @@
     new Vue({
         el: "#app",
         data:{
+            title: "Lessons",
+            descriptions: "You can choose the lessons here:",
             lessons: LESSONS,
+            cart: [],
+        },
+        methods: {
+            addToCart: function(lesson) {
+                if (lesson.Spaces > 0) {
+                    lesson.Spaces--;
+                    this.cart.push(lesson);
+                }
+            },
+        },
+        computed: {
+            cartItemCount: function() {
+                return this.cart.length;
+            }
         }
     });
 </script>
