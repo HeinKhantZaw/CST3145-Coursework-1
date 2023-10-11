@@ -46,7 +46,7 @@
                         <button class="btn" :style="{'cursor': cart?.length <= 0 ? 'not-allowed' : 'pointer'}"
                                 :class="cart?.length > 0 ? 'btn-success' : 'btn-secondary'"
                                 :disabled="cart?.length <= 0"
-                                @click="checkout">
+                                @click="toCartPage">
                             ( {{cartItemCount}} )<i class="fas fa-shopping-cart"></i> Shopping Cart
                         </button>
                     </div>
@@ -96,11 +96,11 @@
                     <h1 class="text-center">Shopping Cart</h1>
                 </div>
                 <div class="col-12">
-                    <h3 v-if="cart.length <= 0 && !orderSubmitted" class="text-center">Your shopping cart is empty</h3>
+                    <h3 v-if="cartItemCount <= 0 && !orderSubmitted" class="text-center">Your shopping cart is
+                        empty</h3>
                 </div>
             </div>
-            <!--If there's items in cart -->
-            <div v-if="cart.length > 0">
+            <div v-if="cartItemCount > 0">
                 <div class="row mx-auto">
                     <div class="col-md-3" v-for="item in cart">
                         <div class="card mb-4">
@@ -120,6 +120,28 @@
                             <button class="btn btn-primary" @click="removeFromCart(item)">Remove from Cart
                             </button>
                         </div>
+                    </div>
+                </div>
+                <div class="row mt-3 justify-content-center">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" v-model="name" @input="validateInputs">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="phone">Phone number:</label>
+                            <input type="text" class="form-control" id="phone" v-model="phoneNumber"
+                                   @input="validateInputs">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 justify-content-center">
+                    <div class="col-1">
+                        <button class="btn btn-primary">
+                            Checkout
+                        </button>
                     </div>
                 </div>
             </div>
@@ -151,7 +173,7 @@
                 lesson.Spaces++;
                 this.cart.splice(this.cart.indexOf(lesson), 1);
             },
-            checkout: function () {
+            toCartPage: function () {
                 this.isProductPage = false;
             },
             backToHome: function () {
