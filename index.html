@@ -125,65 +125,64 @@
             </div>
         </div>
     </div>
-
-    <script>
-        new Vue({
-            el: "#app",
-            data: {
-                title: "Lessons",
-                descriptions: "You can choose the lessons here:",
-                lessons: LESSONS,
-                cart: [],
-                isProductPage: true,
-                searchQuery: "",
-                sortBy: "Subject",
-                sortOrder: 1, // ascending
-                orderSubmitted: false
-            },
-            methods: {
-                addToCart: function (lesson) {
-                    if (lesson.Spaces > 0) {
-                        lesson.Spaces--;
-                        this.cart.push(lesson);
-                    }
-                },
-                removeFromCart: function (lesson) {
-                    lesson.Spaces++;
-                    this.cart.splice(this.cart.indexOf(lesson), 1);
-                },
-                checkout: function () {
-                    this.isProductPage = false;
-                },
-                backToHome: function () {
-                    this.isProductPage = true;
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            title: "Lessons",
+            descriptions: "You can choose the lessons here:",
+            lessons: LESSONS,
+            cart: [],
+            isProductPage: true,
+            searchQuery: "",
+            sortBy: "Subject",
+            sortOrder: 1, // ascending
+            orderSubmitted: false
+        },
+        methods: {
+            addToCart: function (lesson) {
+                if (lesson.Spaces > 0) {
+                    lesson.Spaces--;
+                    this.cart.push(lesson);
                 }
             },
-            computed: {
-                cartItemCount: function () {
-                    return this.cart.length;
-                },
-                displayedLessons: function () {
-                    let result = this.lessons;
-                    if (this.searchQuery !== "")
-                        result = this.lessons.filter(lesson => {
-                            return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase()) || lesson.Location.toLowerCase().includes(this.searchQuery.toLowerCase());
-                        });
-                    return result.sort((a, b) => {
-                        return this.sortOrder * (a[this.sortBy] > b[this.sortBy] ? 1 : -1); // ascending sort order
-                    })
-                }
+            removeFromCart: function (lesson) {
+                lesson.Spaces++;
+                this.cart.splice(this.cart.indexOf(lesson), 1);
+            },
+            checkout: function () {
+                this.isProductPage = false;
+            },
+            backToHome: function () {
+                this.isProductPage = true;
             }
-        });
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+        },
+        computed: {
+            cartItemCount: function () {
+                return this.cart.length;
+            },
+            displayedLessons: function () {
+                let result = this.lessons;
+                if (this.searchQuery !== "")
+                    result = this.lessons.filter(lesson => {
+                        return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase()) || lesson.Location.toLowerCase().includes(this.searchQuery.toLowerCase());
+                    });
+                return result.sort((a, b) => {
+                    return this.sortOrder * (a[this.sortBy] > b[this.sortBy] ? 1 : -1); // ascending sort order
+                })
+            }
+        }
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
