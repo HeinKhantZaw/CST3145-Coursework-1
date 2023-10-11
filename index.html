@@ -81,62 +81,109 @@
         </div>
     </div>
     <div v-else>
-        <!--TODO: Checkout page-->
-        <p> Checkout page here.</p>
-        <p v-for="item in cart">{{item.Subject}}</p>
+        <!--Checkout Page-->
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-12 text-right">
+                    <button class="btn btn-primary" @click="backToHome">
+                        <i class="fas fa-home"></i>
+                        Back to Home
+                    </button>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-12">
+                    <h1 class="text-center">Shopping Cart</h1>
+                </div>
+                <div class="col-12">
+                    <h3 v-if="cart.length <= 0 && !orderSubmitted" class="text-center">Your shopping cart is empty</h3>
+                </div>
+            </div>
+            <!--If there's items in cart -->
+            <div v-if="cart.length > 0">
+                <div class="row mx-auto">
+                    <div class="col-md-3" v-for="item in cart">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="card-title">Subject: {{ item.Subject }}</h5>
+                                        <p class="card-text">Location: {{ item.Location }}</p>
+                                        <p class="card-text">Price: {{ item.Price }}</p>
+                                        <p class="card-text">Spaces: {{ item.Spaces }}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fas" :class="item.Icon" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" @click="removeFromCart(item)">Remove from Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-    new Vue({
-        el: "#app",
-        data: {
-            title: "Lessons",
-            descriptions: "You can choose the lessons here:",
-            lessons: LESSONS,
-            cart: [],
-            isProductPage: true,
-            searchQuery: "",
-            sortBy: "Subject",
-            sortOrder: 1 // ascending
-        },
-        methods: {
-            addToCart: function (lesson) {
-                if (lesson.Spaces > 0) {
-                    lesson.Spaces--;
-                    this.cart.push(lesson);
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                title: "Lessons",
+                descriptions: "You can choose the lessons here:",
+                lessons: LESSONS,
+                cart: [],
+                isProductPage: true,
+                searchQuery: "",
+                sortBy: "Subject",
+                sortOrder: 1, // ascending
+                orderSubmitted: false
+            },
+            methods: {
+                addToCart: function (lesson) {
+                    if (lesson.Spaces > 0) {
+                        lesson.Spaces--;
+                        this.cart.push(lesson);
+                    }
+                },
+                removeFromCart: function (lesson) {
+                    lesson.Spaces++;
+                    this.cart.splice(this.cart.indexOf(lesson), 1);
+                },
+                checkout: function () {
+                    this.isProductPage = false;
+                },
+                backToHome: function () {
+                    this.isProductPage = true;
                 }
             },
-            checkout: function () {
-                this.isProductPage = false;
+            computed: {
+                cartItemCount: function () {
+                    return this.cart.length;
+                },
+                displayedLessons: function () {
+                    let result = this.lessons;
+                    if (this.searchQuery !== "")
+                        result = this.lessons.filter(lesson => {
+                            return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase()) || lesson.Location.toLowerCase().includes(this.searchQuery.toLowerCase());
+                        });
+                    return result.sort((a, b) => {
+                        return this.sortOrder * (a[this.sortBy] > b[this.sortBy] ? 1 : -1); // ascending sort order
+                    })
+                }
             }
-        },
-        computed: {
-            cartItemCount: function () {
-                return this.cart.length;
-            },
-            displayedLessons: function () {
-                let result = this.lessons;
-                if (this.searchQuery !== "")
-                    result = this.lessons.filter(lesson => {
-                        return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase()) || lesson.Location.toLowerCase().includes(this.searchQuery.toLowerCase());
-                    });
-                return result.sort((a,b) => {
-                    return this.sortOrder * (a[this.sortBy] > b[this.sortBy] ? 1 : -1); // ascending sort order
-                } )
-            }
-        }
-    });
-</script>
+        });
+    </script>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 </body>
 </html>
