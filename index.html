@@ -126,20 +126,29 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" v-model="name" @input="validateInputs">
+                            <input type="text" :class="isNameValid ? 'form-control' : 'form-control is-invalid'"
+                                   id="name" v-model="name" @input="validateName">
+                            <div id="validateName" class="invalid-feedback" v-if="name && !isNameValid">
+                                Please provide a valid name. (Only letters and spaces)
+                            </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="phone">Phone number:</label>
-                            <input type="text" class="form-control" id="phone" v-model="phoneNumber"
-                                   @input="validateInputs">
+                            <input type="text" class="form-control"
+                                   :class="isNumberValid ? 'form-control' : 'form-control is-invalid'" id="phone"
+                                   v-model="phoneNumber"
+                                   @input="validateNumber">
+                            <div id="validatePhone" class="invalid-feedback" v-if="phoneNumber && !isNumberValid">
+                                Please provide a valid phone number. (Only digits)
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-3 justify-content-center">
                     <div class="col-1">
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" :disabled="!isFormValid">
                             Checkout
                         </button>
                     </div>
@@ -160,7 +169,11 @@
             searchQuery: "",
             sortBy: "Subject",
             sortOrder: 1, // ascending
-            orderSubmitted: false
+            orderSubmitted: false,
+            name: "",
+            phoneNumber: "",
+            isNameValid: true,
+            isNumberValid: true,
         },
         methods: {
             addToCart: function (lesson) {
@@ -177,8 +190,21 @@
                 this.isProductPage = false;
             },
             backToHome: function () {
+                // reset everything when user goes back home
                 this.isProductPage = true;
-            }
+                this.isNameValid = true;
+                this.isNumberValid = true;
+                this.name = "";
+                this.phoneNumber = "";
+            },
+            validateName: function () {
+                const nameRegex = /^[A-Za-z\s]+$/; // only letters and spaces
+                this.isNameValid = nameRegex.test(this.name)
+            },
+            validateNumber: function () {
+                let phoneRegex = /^[0-9]+$/; // only numbers
+                this.isNumberValid = phoneRegex.test(this.phoneNumber);
+            },
         },
         computed: {
             cartItemCount: function () {
@@ -193,6 +219,9 @@
                 return result.sort((a, b) => {
                     return this.sortOrder * (a[this.sortBy] > b[this.sortBy] ? 1 : -1); // ascending sort order
                 })
+            },
+            isFormValid: function () {
+                return this.name !== "" && this.isNameValid && this.number !== "" && this.isNumberValid;
             }
         }
     });
