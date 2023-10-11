@@ -19,7 +19,7 @@
             <nav class="col-2 d-none d-md-block bg-light sidebar">
                 <div class="mt-3">
                     <h4>Sort by:</h4>
-                    <select class="form-control">
+                    <select class="form-control" v-model="sortBy">
                         <option value="Subject">Subject</option>
                         <option value="Location">Location</option>
                         <option value="Price">Price</option>
@@ -28,11 +28,11 @@
                     <br/>
                     <div class="col">
                         <h4>Order:</h4>
-                        <input class="form-check-input" type="radio">
-                        <label> Ascending </label>
+                        <input id="rdoAscending" class="form-check-input" type="radio" v-model="sortOrder" value="1">
+                        <label for="rdoAscending" class="form-check-label"> Ascending </label>
                         <br/>
-                        <input class="form-check-input" type="radio">
-                        <label>Descending</label>
+                        <input id="rdoDescending" class="form-check-input" type="radio" v-model="sortOrder" value="-1">
+                        <label for="rdoDescending" class="form-check-label">Descending</label>
                     </div>
                 </div>
             </nav>
@@ -43,15 +43,18 @@
                         <input type="text" class="form-control" placeholder="Search lessons" v-model="searchQuery">
                     </div>
                     <div class="col-6 text-right">
-                            <button class="btn" :style="{'cursor': cart?.length <= 0 ? 'not-allowed' : 'pointer'}" :class="cart?.length > 0 ? 'btn-success' : 'btn-secondary'" :disabled="cart?.length <= 0"
-                                    @click="checkout">
-                                ( {{cartItemCount}} )<i class="fas fa-shopping-cart"></i> Shopping Cart
-                            </button>
+                        <button class="btn" :style="{'cursor': cart?.length <= 0 ? 'not-allowed' : 'pointer'}"
+                                :class="cart?.length > 0 ? 'btn-success' : 'btn-secondary'"
+                                :disabled="cart?.length <= 0"
+                                @click="checkout">
+                            ( {{cartItemCount}} )<i class="fas fa-shopping-cart"></i> Shopping Cart
+                        </button>
                     </div>
                 </div>
                 <h1>{{title}}</h1>
                 <p>{{descriptions}}</p>
                 <div class="row">
+                    <!--Lesson cards-->
                     <div class="col-md-4" v-for="lesson in displayedLessons">
                         <div class="card mb-4">
                             <div class="card-body">
@@ -87,33 +90,40 @@
 <script>
     new Vue({
         el: "#app",
-        data:{
+        data: {
             title: "Lessons",
             descriptions: "You can choose the lessons here:",
             lessons: LESSONS,
             cart: [],
             isProductPage: true,
             searchQuery: "",
+            sortBy: "Subject",
+            sortOrder: 1 // ascending
         },
         methods: {
-            addToCart: function(lesson) {
+            addToCart: function (lesson) {
                 if (lesson.Spaces > 0) {
                     lesson.Spaces--;
                     this.cart.push(lesson);
                 }
             },
-            checkout: function() {
+            checkout: function () {
                 this.isProductPage = false;
             }
         },
         computed: {
-            cartItemCount: function() {
+            cartItemCount: function () {
                 return this.cart.length;
             },
-            displayedLessons: function() {
-                return this.lessons.filter(lesson => {
-                    return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase()) || lesson.Location.toLowerCase().includes(this.searchQuery.toLowerCase());
-                });
+            displayedLessons: function () {
+                let result = this.lessons;
+                if (this.searchQuery !== "")
+                    result = this.lessons.filter(lesson => {
+                        return lesson.Subject.toLowerCase().includes(this.searchQuery.toLowerCase()) || lesson.Location.toLowerCase().includes(this.searchQuery.toLowerCase());
+                    });
+                return result.sort((a,b) => {
+                    return this.sortOrder * (a[this.sortBy] > b[this.sortBy] ? 1 : -1); // ascending sort order
+                } )
             }
         }
     });
