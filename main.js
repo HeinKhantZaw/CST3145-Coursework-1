@@ -57,7 +57,6 @@ new Vue({
             this.name = "";
             this.phoneNumber = "";
             if(modalClose === true){
-                console.log(modalClose);
                 this.clearCheckoutForm();
             }
         },
