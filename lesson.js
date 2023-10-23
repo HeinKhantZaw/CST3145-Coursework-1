@@ -3,14 +3,14 @@ const LESSONS = [
         "Subject": "Mathematics",
         "Location": "Room 101",
         "Price": 50,
-        "Spaces": 3,
+        "Spaces": 6,
         "Icon": "fa-calculator"
     },
     {
         "Subject": "Science",
         "Location": "Room 202",
         "Price": 45,
-        "Spaces": 4,
+        "Spaces": 5,
         "Icon": "fa-flask"
     },
     {
@@ -66,7 +66,7 @@ const LESSONS = [
         "Subject": "Physics",
         "Location": "Room 205",
         "Price": 45,
-        "Spaces": 3,
+        "Spaces": 10,
         "Icon": "fa-atom"
     }
 ]
