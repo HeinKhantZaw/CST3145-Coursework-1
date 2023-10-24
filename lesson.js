@@ -3,7 +3,7 @@ const LESSONS = [
         "Subject": "Mathematics",
         "Location": "Room 101",
         "Price": 50,
-        "Spaces": 6,
+        "Spaces": 5,
         "Icon": "fa-calculator"
     },
     {
@@ -24,35 +24,35 @@ const LESSONS = [
         "Subject": "History",
         "Location": "Room 105",
         "Price": 35,
-        "Spaces": 7,
+        "Spaces": 5,
         "Icon": "fa-scroll"
     },
     {
         "Subject": "Chemistry",
         "Location": "Room 203",
         "Price": 50,
-        "Spaces": 10,
+        "Spaces": 5,
         "Icon": "fa-flask"
     },
     {
         "Subject": "Biology",
         "Location": "Room 204",
         "Price": 45,
-        "Spaces": 9,
+        "Spaces": 5,
         "Icon": "fa-microscope"
     },
     {
         "Subject": "CS",
         "Location": "Computer Lab",
         "Price": 40,
-        "Spaces": 15,
+        "Spaces": 5,
         "Icon": "fa-laptop"
     },
     {
         "Subject": "Advanced Algebra",
         "Location": "Room 106",
         "Price": 55,
-        "Spaces": 7,
+        "Spaces": 5,
         "Icon": "fa-calculator"
     },
     {
@@ -66,7 +66,7 @@ const LESSONS = [
         "Subject": "Physics",
         "Location": "Room 205",
         "Price": 45,
-        "Spaces": 10,
+        "Spaces": 5,
         "Icon": "fa-atom"
     }
 ]
